@@ -1,0 +1,70 @@
+#!/bin/busybox sh
+
+MOUNTDIR=/boot
+# expected to be run from /boot, where the boot partition is mounted (readonly)
+
+LOGS=/dev/null
+
+{
+echo "firstboot script running..."
+
+# try to read what handheld we're on
+if test -r "${MOUNTDIR}/handheld.txt"; then
+    source "${MOUNTDIR}/handheld.txt"
+fi
+
+# sanity checks
+if test -z "${HANDHELD_TYPE}"; then
+    HANDHELD_TYPE="v90_q90"
+    echo "No HANDHELD_TYPE set in boot/handheld.txt. Defaulting to v90/q90."
+fi
+if test ! -d "${MOUNTDIR}/variants/${HANDHELD_TYPE}"; then
+    HANDHELD_TYPE="v90_q90"
+    echo "Unknown HANDHELD_TYPE set in boot/handheld.txt. Defaulting to v90/q90."
+fi
+
+# action time - copy over the kernel and the config files
+
+echo "Copying the kernel into place..."
+mount -o remount,rw "${MOUNTDIR}"
+cp "${MOUNTDIR}/variants/${HANDHELD_TYPE}/zImage" "${MOUNTDIR}/zImage"
+sync
+mount -o remount,ro "${MOUNTDIR}"
+
+echo -e "Copying default configuration files into place..."
+mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt
+for f in .fpbp.conf .backlight.conf .volume.conf .buttons.conf .batterylow.conf ; do
+    if test -r "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f"; then
+        echo "Copying $f..."
+        cp -f "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f" "/mnt/$f"
+    fi
+done
+
+# we are running these directly from boot partition now, so not needed:
+#echo -e "Copying binaries into place..."
+#mkdir -p /mnt/kernel
+#for f in daemon ; do
+#    if test -r "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f"; then
+#        echo "Copying $f..."
+#        cp -f "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f" "/mnt/kernel/$f"
+#    fi
+#done
+
+mount -o remount,ro /mnt
+
+# do some more stuff here, like extend the main partition???
+
+# disable this script
+mount -o remount,rw "${MOUNTDIR}"
+echo "Disabling the firstboot script."
+mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done"
+mount -o remount,ro "${MOUNTDIR}"
+
+sync
+echo -e "firstboot script finished."
+} >>${LOGS} 2>&1
+
+umount /dev/mmcblk0p4
+umount /dev/mmcblk0p1
+sleep 1
+poweroff

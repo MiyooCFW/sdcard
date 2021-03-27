@@ -1,0 +1,98 @@
+#!/bin/busybox sh
+
+BOOTLOGO="boot-logo"
+export HOME=/mnt
+export SDL_NOMOUSE=1
+START="${HOME}/autoexec.sh"
+
+BOOTDIR=/boot
+LOGS=/dev/null
+# can use /mnt/log.txt here, but note that this prevents clean shutdowns - so only use this for debugging
+
+# create /boot dir if needed (GET RID OF THIS WHEN BUILDROOT HAS THIS DIR)
+if test ! -d "${BOOTDIR}"; then
+    mount -o remount,rw /
+    mkdir "${BOOTDIR}"
+    mount -o remount,ro /
+fi
+# mount boot partition read-only for starters (GET RID OF THIS WHEN IT'S MOUNTED FROM inittab)
+mount -t vfat -o ro,exec,sync,utf8 /dev/mmcblk0p1 "${BOOTDIR}"
+
+# check if it's first boot and defer to the firstboot script if yes
+if test -r "${BOOTDIR}/firstboot"; then
+    exec sh "${BOOTDIR}/firstboot"
+fi
+
+# try to read what handheld we're on
+if test -r "${BOOTDIR}/handheld.txt"; then
+    source "${BOOTDIR}/handheld.txt"
+fi
+# sanity checks - we default to V90/Q90
+if test -z "${HANDHELD_TYPE}"; then
+    HANDHELD_TYPE="v90_q90"
+fi
+if test ! -d "${BOOTDIR}/variants/${HANDHELD_TYPE}"; then
+    HANDHELD_TYPE="v90_q90"
+fi
+export HANDHELD_TYPE
+
+# load kernel modules
+# do it directly and not rely on modprobe trying to find them
+#   automatically in rootfs/lib/modules/VERSION
+#   (also because with custom kernels the VERSION will be different
+insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/syscopyarea.ko"
+insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/sysfillrect.ko"
+insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/sysimgblt.ko"
+if test -e "${BOOTDIR}/variants/${HANDHELD_TYPE}/flip"; then
+    insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/r61520fb.ko" flip=1
+else
+    insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/r61520fb.ko"
+fi
+#insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/echainiv.ko"
+
+echo -e "\e[?1c" #replace 1 with 3 to see text
+#${BOOTDIR}/variants/${HANDHELD_TYPE}/setcolors ${BOOTDIR}/variants/${HANDHELD_TYPE}/colors
+
+#Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
+if dmesg | grep "mmcblk0p4" > /dev/null;  then
+echo -e "\e[31mUnclean shutdown detected.\e[0m"
+echo -e "\e[32mChecking FAT32 partition...\e[0m"
+umount /dev/mmcblk0p4
+fsck.vfat -y /dev/mmcblk0p4 > /dev/null; 
+mount /dev/mmcblk0p4 "${HOME}" -t vfat -o rw,sync,utf8
+echo -e "\e[32mCheck complete.\e[0m"
+fi
+
+clear
+
+echo "Boot!" >> "${LOGS}"
+echo "Handheld type is ${HANDHELD_TYPE}" >> "${LOGS}"
+
+# do some hardware init and monitoring
+${BOOTDIR}/variants/${HANDHELD_TYPE}/daemon >> "${LOGS}" 2>&1
+
+# run any custom commands
+if test -r "${BOOTDIR}/variants/${HANDHELD_TYPE}/customauto.sh" ; then
+    (cd "${BOOTDIR}/variants/${HANDHELD_TYPE}" && sh customauto.sh ) # don't redirect, want output on screen
+fi
+
+# run boot logo animation
+if [ -e "${BOOTDIR}/variants/${HANDHELD_TYPE}/${BOOTLOGO}" ]; then
+    "${BOOTDIR}/variants/${HANDHELD_TYPE}/${BOOTLOGO}" >> "${LOGS}" 2>&1
+fi
+
+# can't unmount boot because 'daemon' runs from it - but it's mounted read-only
+#  so it's fine
+## umount /dev/mmcblk0p1
+
+while [ 1 ]
+do
+    if test -f "${START}"; then
+        source "${START}"
+    else
+
+        cd "${HOME}"/gmenu2x;
+        ./gmenu2x >> "${LOGS}" 2>&1;
+    fi
+    clear
+done
