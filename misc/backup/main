@@ -72,8 +72,8 @@ echo "Handheld type is ${HANDHELD_TYPE}" >> "${LOGS}"
 ${BOOTDIR}/variants/${HANDHELD_TYPE}/daemon >> "${LOGS}" 2>&1
 
 # run any custom commands
-if test -r "${BOOTDIR}/variants/${HANDHELD_TYPE}/customauto.sh" ; then
-    (cd "${BOOTDIR}/variants/${HANDHELD_TYPE}" && sh customauto.sh ) # don't redirect, want output on screen
+if test -r "${BOOTDIR}/variants/${HANDHELD_TYPE}/normalboot.custom.sh" ; then
+    (cd "${BOOTDIR}/variants/${HANDHELD_TYPE}" && sh normalboot.custom.sh ) # don't redirect, want output on screen
 fi
 
 # run boot logo animation

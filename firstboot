@@ -1,64 +1,66 @@
 #!/bin/busybox sh
 
 MOUNTDIR=/boot
-# expected to be run from /boot, where the boot partition is mounted (readonly)
+# expect to be run from /boot, where the boot partition is mounted (readonly)
 
-LOGS=/dev/null
+# also expect HANDHELD_TYPE to be passed in = already set from /etc/main
+# also expect the screen driver to be loaded in /etc/main
 
-{
-echo "firstboot script running..."
+LOG=/dev/null
 
-# try to read what handheld we're on
-if test -r "${MOUNTDIR}/handheld.txt"; then
-    source "${MOUNTDIR}/handheld.txt"
-fi
-
-# sanity checks
-if test -z "${HANDHELD_TYPE}"; then
-    HANDHELD_TYPE="v90_q90"
-    echo "No HANDHELD_TYPE set in boot/handheld.txt. Defaulting to v90/q90."
-fi
-if test ! -d "${MOUNTDIR}/variants/${HANDHELD_TYPE}"; then
-    HANDHELD_TYPE="v90_q90"
-    echo "Unknown HANDHELD_TYPE set in boot/handheld.txt. Defaulting to v90/q90."
-fi
+#echo -e "\e[?3c"
+echo -e "\e[32m" # green
 
 # action time - copy over the kernel and the config files
 
-echo -e "Copying default configuration files into place..."
-mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt
-for f in .fpbp.conf .backlight.conf .volume.conf .buttons.conf .batterylow.conf ; do
-    if test -r "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f"; then
-        echo "Copying $f..."
-        cp -f "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f" "/mnt/$f"
-    fi
-done
+echo "firstboot script running..." | tee -a ${LOG}
 
-# we are running these directly from boot partition now, so not needed:
-#echo -e "Copying binaries into place..."
-#mkdir -p /mnt/kernel
-#for f in daemon ; do
-#    if test -r "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f"; then
-#        echo "Copying $f..."
-#        cp -f "${MOUNTDIR}/variants/${HANDHELD_TYPE}/$f" "/mnt/kernel/$f"
-#    fi
-#done
+BASEDIR="${MOUNTDIR}/variants/${HANDHELD_TYPE}"
 
-mount -o remount,ro /mnt
+# action time
+
+# copy over the config files
+echo "Copying default configuration files into place..." | tee -a ${LOG}
+mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt | tee -a ${LOG}
+if test -r "${BASEDIR}/configs/manifest"; then
+    while read -r LINE; do
+        if test "${LINE}" == "${LINE#!}" -a "${LINE}" != "" ; then
+            set -- ${LINE}
+            # 1               2
+            # source_filename target_filename/inside main/
+            if test -r "${BASEDIR}/configs/$1"; then
+                TO="$2"
+                if test "${TO}" == ""; then
+                    TO="$1"
+                fi
+                echo "Copying $1 to /mnt/$TO..." | tee -a ${LOG}
+                cp -f "${BASEDIR}/configs/$1" "/mnt/$TO" | tee -a ${LOG}
+            fi
+        fi
+    done < "${BASEDIR}/configs/manifest"
+fi
+
+# run a custom script if present - could be used to fix u-boot and such
+if test -r "${BASEDIR}/firstboot.custom.sh"; then
+    echo "Running a variant specific firstboot script..." | tee -a ${LOG}
+    (cd "${BASEDIR}" && sh firstboot.custom.sh) | tee -a ${LOG}
+    echo "Finished running a variant specific firstboot script." | tee -a ${LOG}
+fi
+
+mount -o remount,ro /mnt | tee -a ${LOG}
 
 # do some more stuff here, like extend the main partition???
 
 # disable this script
-mount -o remount,rw "${MOUNTDIR}"
-echo "Disabling the firstboot script."
-mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done"
-mount -o remount,ro "${MOUNTDIR}"
+mount -o remount,rw "${MOUNTDIR}" | tee -a ${LOG}
+echo "Disabling the firstboot script." | tee -a ${LOG}
+mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
+mount -o remount,ro "${MOUNTDIR}" | tee -a ${LOG}
 
 sync
-echo -e "firstboot script finished."
-} >>${LOGS} 2>&1
+echo "firstboot script finished." | tee -a ${LOG}
 
-umount /dev/mmcblk0p4
-umount /dev/mmcblk0p1
-sleep 1
+umount /dev/mmcblk0p4 | tee -a ${LOG}
+umount /dev/mmcblk0p1 | tee -a ${LOG}
+sleep 5
 poweroff
