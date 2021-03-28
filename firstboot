@@ -25,12 +25,6 @@ fi
 
 # action time - copy over the kernel and the config files
 
-echo "Copying the kernel into place..."
-mount -o remount,rw "${MOUNTDIR}"
-cp "${MOUNTDIR}/variants/${HANDHELD_TYPE}/zImage" "${MOUNTDIR}/zImage"
-sync
-mount -o remount,ro "${MOUNTDIR}"
-
 echo -e "Copying default configuration files into place..."
 mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt
 for f in .fpbp.conf .backlight.conf .volume.conf .buttons.conf .batterylow.conf ; do

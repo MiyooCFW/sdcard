@@ -18,11 +18,6 @@ fi
 # mount boot partition read-only for starters (GET RID OF THIS WHEN IT'S MOUNTED FROM inittab)
 mount -t vfat -o ro,exec,sync,utf8 /dev/mmcblk0p1 "${BOOTDIR}"
 
-# check if it's first boot and defer to the firstboot script if yes
-if test -r "${BOOTDIR}/firstboot"; then
-    exec sh "${BOOTDIR}/firstboot"
-fi
-
 # try to read what handheld we're on
 if test -r "${BOOTDIR}/handheld.txt"; then
     source "${BOOTDIR}/handheld.txt"
@@ -49,6 +44,11 @@ else
     insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/r61520fb.ko"
 fi
 #insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/echainiv.ko"
+
+# check if it's first boot and defer to the firstboot script if yes
+if test -r "${BOOTDIR}/firstboot"; then
+    exec sh "${BOOTDIR}/firstboot"
+fi
 
 echo -e "\e[?1c" #replace 1 with 3 to see text
 #${BOOTDIR}/variants/${HANDHELD_TYPE}/setcolors ${BOOTDIR}/variants/${HANDHELD_TYPE}/colors
