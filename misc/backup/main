@@ -7,6 +7,7 @@ START="${HOME}/autoexec.sh"
 
 BOOTDIR=/boot
 LOGS=/dev/null
+#LOGS=/mnt/log.txt
 # can use /mnt/log.txt here, but note that this prevents clean shutdowns - so only use this for debugging
 
 # create /boot dir if needed (GET RID OF THIS WHEN BUILDROOT HAS THIS DIR)

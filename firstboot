@@ -23,7 +23,7 @@ BASEDIR="${MOUNTDIR}/variants/${HANDHELD_TYPE}"
 echo "Copying default configuration files into place..." | tee -a ${LOG}
 mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt | tee -a ${LOG}
 if test -r "${BASEDIR}/configs/manifest"; then
-    while read -r LINE; do
+    cat "${BASEDIR}/configs/manifest" | while read -r LINE; do
         if test "${LINE}" == "${LINE#!}" -a "${LINE}" != "" ; then
             set -- ${LINE}
             # 1               2
@@ -37,7 +37,7 @@ if test -r "${BASEDIR}/configs/manifest"; then
                 cp -f "${BASEDIR}/configs/$1" "/mnt/$TO" | tee -a ${LOG}
             fi
         fi
-    done < "${BASEDIR}/configs/manifest"
+    done
 fi
 
 # run a custom script if present - could be used to fix u-boot and such
@@ -59,6 +59,7 @@ mount -o remount,ro "${MOUNTDIR}" | tee -a ${LOG}
 
 sync
 echo "firstboot script finished." | tee -a ${LOG}
+echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
 
 umount /dev/mmcblk0p4 | tee -a ${LOG}
 umount /dev/mmcblk0p1 | tee -a ${LOG}
