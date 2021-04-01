@@ -3,7 +3,7 @@
 MOUNTDIR=/boot
 # expect to be run from /boot, where the boot partition is mounted (readonly)
 
-# also expect HANDHELD_TYPE to be passed in = already set from /etc/main
+# also expect CONSOLE_VARIANT to be passed in = already set from /etc/main
 # also expect the screen driver to be loaded in /etc/main
 
 LOG=/dev/null
@@ -15,7 +15,7 @@ echo -e "\e[32m" # green
 
 echo "firstboot script running..." | tee -a ${LOG}
 
-BASEDIR="${MOUNTDIR}/variants/${HANDHELD_TYPE}"
+BASEDIR="${MOUNTDIR}/variants/${CONSOLE_VARIANT}"
 
 # action time
 
