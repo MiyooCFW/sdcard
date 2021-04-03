@@ -20,17 +20,17 @@ fi
 mount -t vfat -o ro,exec,sync,utf8 /dev/mmcblk0p1 "${BOOTDIR}"
 
 # try to read what handheld we're on
-if test -r "${BOOTDIR}/handheld.txt"; then
-    source "${BOOTDIR}/handheld.txt"
+if test -r "${BOOTDIR}/console.cfg"; then
+    source "${BOOTDIR}/console.cfg"
 fi
 # sanity checks - we default to V90/Q90
-if test -z "${HANDHELD_TYPE}"; then
-    HANDHELD_TYPE="v90_q90"
+if test -z "${CONSOLE_VARIANT}"; then
+    CONSOLE_VARIANT="v90_q90"
 fi
-if test ! -d "${BOOTDIR}/variants/${HANDHELD_TYPE}"; then
-    HANDHELD_TYPE="v90_q90"
+if test ! -d "${BOOTDIR}/variants/${CONSOLE_VARIANT}"; then
+    CONSOLE_VARIANT="v90_q90"
 fi
-export HANDHELD_TYPE
+export CONSOLE_VARIANT
 
 if test "x${DEBUG_MSG}" == "xyes"; then
     echo -e "\e[0m"    # normal foreground colour
@@ -43,22 +43,22 @@ fi
 # do it directly and not rely on modprobe trying to find them
 #   automatically in rootfs/lib/modules/VERSION
 #   (also because with custom kernels the VERSION will be different
-insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/syscopyarea.ko"
-insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/sysfillrect.ko"
-insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/sysimgblt.ko"
-if test -e "${BOOTDIR}/variants/${HANDHELD_TYPE}/flip"; then
-    insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/r61520fb.ko" flip=1
+insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/syscopyarea.ko"
+insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/sysfillrect.ko"
+insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/sysimgblt.ko"
+if test -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/flip"; then
+    insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/r61520fb.ko" flip=1
 else
-    insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/r61520fb.ko"
+    insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/r61520fb.ko"
 fi
-#insmod "${BOOTDIR}/variants/${HANDHELD_TYPE}/echainiv.ko"
+#insmod "${BOOTDIR}/variants/${CONSOLE_VARIANT}/echainiv.ko"
 
 # check if it's first boot and defer to the firstboot script if yes
 if test -r "${BOOTDIR}/firstboot"; then
     exec sh "${BOOTDIR}/firstboot"
 fi
 
-#${BOOTDIR}/variants/${HANDHELD_TYPE}/setcolors ${BOOTDIR}/variants/${HANDHELD_TYPE}/colors
+#${BOOTDIR}/variants/${CONSOLE_VARIANT}/setcolors ${BOOTDIR}/variants/${CONSOLE_VARIANT}/colors
 
 #Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
 if dmesg | grep "mmcblk0p4" > /dev/null;  then
@@ -73,19 +73,19 @@ fi
 clear
 
 echo "Boot!" >> "${LOGS}"
-echo "Handheld type is ${HANDHELD_TYPE}" >> "${LOGS}"
+echo "Handheld type is ${CONSOLE_VARIANT}" >> "${LOGS}"
 
 # do some hardware init and monitoring
-${BOOTDIR}/variants/${HANDHELD_TYPE}/daemon >> "${LOGS}" 2>&1
+${BOOTDIR}/variants/${CONSOLE_VARIANT}/daemon >> "${LOGS}" 2>&1
 
 # run any custom commands
-if test -r "${BOOTDIR}/variants/${HANDHELD_TYPE}/normalboot.custom.sh" ; then
-    (cd "${BOOTDIR}/variants/${HANDHELD_TYPE}" && sh normalboot.custom.sh ) # don't redirect, want output on screen
+if test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/normalboot.custom.sh" ; then
+    (cd "${BOOTDIR}/variants/${CONSOLE_VARIANT}" && sh normalboot.custom.sh ) # don't redirect, want output on screen
 fi
 
 # run boot logo animation
-if [ -e "${BOOTDIR}/variants/${HANDHELD_TYPE}/${BOOTLOGO}" ]; then
-    "${BOOTDIR}/variants/${HANDHELD_TYPE}/${BOOTLOGO}" >> "${LOGS}" 2>&1
+if [ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ]; then
+    "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" >> "${LOGS}" 2>&1
 fi
 
 # can't unmount boot because 'daemon' runs from it - but it's mounted read-only
