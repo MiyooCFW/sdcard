@@ -32,6 +32,13 @@ if test ! -d "${BOOTDIR}/variants/${HANDHELD_TYPE}"; then
 fi
 export HANDHELD_TYPE
 
+if test "x${DEBUG_MSG}" == "xyes"; then
+    echo -e "\e[0m"    # normal foreground colour
+    export DEBUG_MSG   # set it globally for further programs
+else
+    echo -e "\e[30m"   # black foreground colour
+fi
+
 # load kernel modules
 # do it directly and not rely on modprobe trying to find them
 #   automatically in rootfs/lib/modules/VERSION
@@ -51,7 +58,6 @@ if test -r "${BOOTDIR}/firstboot"; then
     exec sh "${BOOTDIR}/firstboot"
 fi
 
-echo -e "\e[?1c" #replace 1 with 3 to see text
 #${BOOTDIR}/variants/${HANDHELD_TYPE}/setcolors ${BOOTDIR}/variants/${HANDHELD_TYPE}/colors
 
 #Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
@@ -85,6 +91,12 @@ fi
 # can't unmount boot because 'daemon' runs from it - but it's mounted read-only
 #  so it's fine
 ## umount /dev/mmcblk0p1
+
+if test "x${DEBUG_MSG}" == "xyes"; then
+    echo "(Waiting 5 seconds before proceeding...)"
+    sleep 5
+    dmesg > /mnt/dmesg.txt
+fi
 
 while [ 1 ]
 do
