@@ -8,12 +8,16 @@ MOUNTDIR=/boot
 
 LOG=/dev/null
 
+# high brightness
+echo '10' > /sys/devices/platform/backlight/backlight/backlight/brightness
+
 #echo -e "\e[?3c"
 echo -e "\e[32m" # green
 
 # action time - copy over the kernel and the config files
 
 echo "firstboot script running..." | tee -a ${LOG}
+echo
 
 BASEDIR="${MOUNTDIR}/variants/${CONSOLE_VARIANT}"
 
@@ -40,6 +44,8 @@ if test -r "${BASEDIR}/configs/manifest"; then
     done
 fi
 
+echo
+
 # run a custom script if present - could be used to fix u-boot and such
 if test -r "${BASEDIR}/firstboot.custom.sh"; then
     echo "Running a variant specific firstboot script..." | tee -a ${LOG}
@@ -49,6 +55,8 @@ fi
 
 mount -o remount,ro /mnt | tee -a ${LOG}
 
+echo
+
 # do some more stuff here, like extend the main partition???
 
 # disable this script
@@ -57,11 +65,16 @@ echo "Disabling the firstboot script." | tee -a ${LOG}
 mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
 mount -o remount,ro "${MOUNTDIR}" | tee -a ${LOG}
 
+echo
+
 sync
 echo "firstboot script finished." | tee -a ${LOG}
 echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
 
+echo
+
 umount /dev/mmcblk0p4 | tee -a ${LOG}
-umount /dev/mmcblk0p1 | tee -a ${LOG}
+#umount /dev/mmcblk0p1 | tee -a ${LOG} # this fails
+
 sleep 5
 poweroff
