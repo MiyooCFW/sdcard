@@ -9,6 +9,7 @@ BOOTDIR=/boot
 LOGS=/dev/null
 #LOGS=/mnt/log.txt
 # can use /mnt/log.txt here, but note that this prevents clean shutdowns - so only use this for debugging
+export LOGS # so that subshells can use this as well
 
 # create /boot dir if needed (GET RID OF THIS WHEN BUILDROOT HAS THIS DIR)
 if test ! -d "${BOOTDIR}"; then
@@ -58,8 +59,6 @@ if test -r "${BOOTDIR}/firstboot"; then
     exec sh "${BOOTDIR}/firstboot"
 fi
 
-#${BOOTDIR}/variants/${CONSOLE_VARIANT}/setcolors ${BOOTDIR}/variants/${CONSOLE_VARIANT}/colors
-
 #Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
 if dmesg | grep "mmcblk0p4" > /dev/null;  then
 echo -e "\e[31mUnclean shutdown detected.\e[0m"
@@ -75,10 +74,7 @@ clear
 echo "Boot!" >> "${LOGS}"
 echo "Handheld type is ${CONSOLE_VARIANT}" >> "${LOGS}"
 
-# do some hardware init and monitoring
-${BOOTDIR}/variants/${CONSOLE_VARIANT}/daemon >> "${LOGS}" 2>&1
-
-# run any custom commands
+# run any custom commands (at least 'daemon' expected to be run from there)
 if test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/normalboot.custom.sh" ; then
     (cd "${BOOTDIR}/variants/${CONSOLE_VARIANT}" && sh normalboot.custom.sh ) # don't redirect, want output on screen
 fi
