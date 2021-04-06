@@ -1,0 +1,6 @@
+title=LYNX
+description=Handy Emulator
+exec=/mnt/emus/handy/handy
+clock=702
+selectordir=/mnt/roms/LYNX
+selectorelement=2
