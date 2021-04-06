@@ -2,7 +2,7 @@
 
 Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, Pocket Go V1, Powkiddy V90 and Q90).
 
-TL;DR: you can generate a minimal image, run `./generate_image_file.sh` on a linux system (some standard packages are required on the host; `x86_64` only).
+TL;DR: to generate a minimal image, run `./generate_image_file.sh` on a linux system (some standard packages are required on the host; `x86_64` only).
 
 The output will be a `cfw-dev-<DATE>.img` file which can be written onto a micro sd card.
 
@@ -12,7 +12,7 @@ When booted for the _first time_, the boot splash logo may be upside-down or eve
 
 ## Description of various parts of what is here
 
-There are essentially four "ingredients" that go into the image: __u-boot__ (the bootloader), __the kernel__ plus modules and support programs, __root filesystem__, __apps, emulators, ports,...__
+There are essentially four "ingredients" that go into the image: __u-boot__ (the bootloader), __the kernel__ plus modules and support programs, __root filesystem__, and __apps/emulators/ports,...__
 
 All of these can (in principle) be compiled from source. This repo has _only_ binary images, not sources.
 
@@ -28,7 +28,7 @@ Currently this file reads `console.cfg`, loads the correct kernel from `variants
 
 ### linux kernel
 
-In the current arrangements, all the kernel-related files are in `variants/$CONSOLE_VARIANT` subdirectories; these (can) also differ between the handheld variants. The main ones are `zImage` (which is the main "kernel") and then some drivers named `*.ko`. Any special module loading logic on boot can be in `modules.custom.sh` script.
+In the current arrangements, all the kernel-related files are in `boot/variants/$CONSOLE_VARIANT` subdirectories; these (can) also differ between the handheld variants. The main ones are `zImage` (which is the main "kernel") and then some drivers named `*.ko`. Any special module loading logic on boot can be in `modules.custom.sh` script.
 
 There are two more userspace programs that talk to the kernel & modules, namely [daemon][daemon] and [miyooctl][miyooctl]. These are called/loaded from `normalboot.custom.sh` script.
 `miyooctl` lets the drivers know which "version" of hardware should they expect; `daemon` monitors for some keypad shortcuts. These can be cross-compiled from the sources linked above, using the proper toolchain.
@@ -47,29 +47,36 @@ However one very useful thing that _can_ be squeezed from the current buildroot 
 ### main partition
 
 These are apps/emulators/ports/games that run on the device. The required one being [gmenu2x][gmenunx]. Here supplied in the `main` directory. All binaries, taken directly from CFW 1.3.3 release.
- For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
+
+For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
+
+There are a couple of free homebrew roms included here, to be able to test the image. Please see the credits below!
 
 
 
 
 
+# Included games/ROMs links/credits
 
-* Included ROMs links/credits
-
-** NES
+## NES
 
 - [Alter Ego](https://www.romhacking.net/homebrew/1/)
 - [From Below](https://mhughson.itch.io/from-below)
 
-** GB
+## GB
 
 - [Dangan](https://snorpung.itch.io/dangan-gb)
 - [The bouncing ball](http://gb.cabbage.cx/)
 
-** GBC
+## GBC
 
 - [ucity](https://github.com/AntonioND/ucity)
 - [vectroid](https://gitlab.com/BonsaiDen/vectroid.gb)
+
+## games
+
+- [CircuitDude](http://www.circuitdude.com/)
+- [Hocoslamfy](https://github.com/Nebuleon/hocoslamfy)
 
 
 
