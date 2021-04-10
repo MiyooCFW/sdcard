@@ -57,12 +57,24 @@ mount -o remount,ro /mnt | tee -a ${LOG}
 
 echo
 
-# do some more stuff here, like extend the main partition???
+# resize the main partition if requested
+if test -e "${MOUNTDIR}/resize"; then
+    echo "Going to resize the MAIN partition." | tee -a ${LOG}
+    echo "This can take A LONG TIME, so be patient." | tee -a ${LOG}
+    umount /dev/mmcblk0p4 | tee -a ${LOG}
+    fsck.vfat -y /dev/mmcblk0p4 | tee -a ${LOG}
+    "${MOUNTDIR}/misc/bin/fatresize_hc" | tee -a ${LOG}
+    fsck.vfat -y /dev/mmcblk0p4 | tee -a ${LOG}
+    mount -t vfat -o rw,sync,utf8 /dev/mmcblk0p4 /mnt | tee -a ${LOG}
+fi
+
+# do some more stuff here ??
 
 # disable this script
 mount -o remount,rw "${MOUNTDIR}" | tee -a ${LOG}
 echo "Disabling the firstboot script." | tee -a ${LOG}
 mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
+if test -e "${MOUNTDIR}/resize"; then rm "${MOUNTDIR}/resize"; fi
 mount -o remount,ro "${MOUNTDIR}" | tee -a ${LOG}
 
 echo

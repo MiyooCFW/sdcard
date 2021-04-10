@@ -40,7 +40,7 @@ MAINFILES="${ROOTDIR}/main"
 ROOTFILES="${ROOTDIR}/rootfs.tar.xz"
 
 msg "Creating image file ..."
-dd if=/dev/zero of="${OUTFILE}" bs=1024 count=1048576
+dd if=/dev/zero of="${OUTFILE}" bs=1024 count=1179648
 
 msg "Mapping image as a loop device ..."
 LOOPDEV=$(${BB} losetup -f)
@@ -48,8 +48,8 @@ $BB losetup "${LOOPDEV}" "${OUTFILE}"
 
 msg "Creating partition table ..."
 sfdisk "${LOOPDEV}" << EOF
-,522240,6
-,522240,L
+,261120,6
+,261120,L
 ,522240,S
 ,,b;
 EOF
