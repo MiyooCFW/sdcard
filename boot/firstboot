@@ -9,7 +9,7 @@ MOUNTDIR=/boot
 LOG=/dev/null
 
 BINDIR="${MOUNTDIR}/misc/bin"
-FATFSCK="${BINDIR}/fsck.vfat"
+FATFSCK="${BINDIR}/fsck.fat"
 
 # high brightness
 echo '10' > /sys/devices/platform/backlight/backlight/backlight/brightness
