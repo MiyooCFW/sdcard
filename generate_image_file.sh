@@ -84,7 +84,7 @@ $BB cp -Lr "${BOOTFILES}"/* "${TEMPMOUNT}"
 $BB umount "${TEMPMOUNT}"
 msg "Copying over main files ..."
 $BB mount "${LOOPDEV}p4" "${TEMPMOUNT}"
-$BB cp -Lr "${MAINFILES}"/* "${TEMPMOUNT}"
+$BB cp -Lr "${MAINFILES}"/. "${TEMPMOUNT}"
 $BB umount "${TEMPMOUNT}"
 
 # remove temp dir
