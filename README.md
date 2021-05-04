@@ -1,4 +1,4 @@
-# miyooimg
+# Main boot
 
 Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, Pocket Go V1, Powkiddy V90 and Q90).
 
@@ -15,6 +15,83 @@ When booted for the _first time_, the boot splash logo may be upside-down or eve
 There are essentially four "ingredients" that go into the image: __u-boot__ (the bootloader), __the kernel__ plus modules and support programs, __root filesystem__, and __apps/emulators/ports,...__
 
 All of these can (in principle) be compiled from source. This repo has _only_ binary images, not sources.
+
+### Structure
+
+Main partition/file structure.
+
+```text
+boot:
+|   boot.scr
+|   console.cfg
+|   firstboot
+|   suniv-f1c500s-miyoo.dtb
+|   tree.txt
+|   
+├── misc
+|   ├── backup
+|   |       boot.cmd
+|   |       boot.scr
+|   |       generate_image_file.sh
+|   |       gen_boot_scr.sh
+|   |       inittab
+|   |       main
+|   |       README.md
+|   |       suniv-f1c500s-miyoo.dtb
+|   |       
+|   ├── bin
+|   |       busybox
+|   |       fatlabel
+|   |       fatresize_hc
+|   |       fsck.fat
+|   |       mkfs.fat
+|   |       README.md
+|   |       
+|   └── u-boot-bins
+|           u-boot-bittboy2x.bin
+|           u-boot-bittboy3.5.bin
+|           u-boot-bittboy3.bin
+|           u-boot-v90_q90_pocketgo.bin
+|           
+└── variants
+    |   .keep
+    |   
+    ├── bittboy2x
+    |   |   boot-logo
+    |   |   daemon
+    |   |   firstboot.custom.sh
+    |   |   miyooctl2
+    |   |   modules.custom.sh
+    |   |   normalboot.custom.sh
+    |   |   r61520fb.ko
+    |   |   syscopyarea.ko
+    |   |   sysfillrect.ko
+    |   |   sysimgblt.ko
+    |   |   zImage
+    |   |   
+    |   └── configs
+    |           .backlight.conf
+    |           .volume.conf
+    |           gmenu2x.conf
+    |           input.conf
+    |           manifest
+    |           
+    ├── bittboy2x.orig
+    ├── bittboy3.5
+    ├── bittboy3.5.orig
+    ├── bittboy3.orig
+    ├── pocketgo.orig
+    ├── v90_q90 
+    ├── v90_q90.orig      
+    └── xyc
+
+main:
+├── apps
+├── emus
+├── games
+├── gmenu2x
+└── roms
+```
 
 ### U-Boot
 
