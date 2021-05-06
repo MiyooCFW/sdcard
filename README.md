@@ -26,7 +26,6 @@ boot:
 |   console.cfg
 |   firstboot
 |   suniv-f1c500s-miyoo.dtb
-|   tree.txt
 |   
 ├── misc
 |   ├── backup
@@ -103,7 +102,7 @@ This is the code that runs the first thing after boot, and is responsible for th
 
 Currently this file reads `console.cfg`, loads the correct kernel from `variants/$CONSOLE_VARIANT` and hands over to it.
 
-### linux kernel
+### Linux kernel
 
 In the current arrangements, all the kernel-related files are in `boot/variants/$CONSOLE_VARIANT` subdirectories; these (can) also differ between the handheld variants. The main ones are `zImage` (which is the main "kernel") and then some drivers named `*.ko`. Any special module loading logic on boot can be in `modules.custom.sh` script.
 
@@ -113,7 +112,7 @@ There are two more userspace programs that talk to the kernel & modules, namely 
 The custom 4.14.0 linux kernel sources are in [this repository][kernel]. In the current form (2021-04-06) they compile into a kernel that works at least on Bittboy v3.5 and Powkiddy V90; this is the one supplied in `boot/variants/{v90_q90,bittboy3.5}`. All the other variants supplied here contain the kernel and modules taken from CFW 1.3.3 release.
 
 
-### root filesystem
+### Root filesystem
 
 This is what becomes the `/` directory when linux runs. This can be in principle compiled from [these sources][buildroot], but at the moment (2021-04-06) the buildroot configuration does not match the archived binary supplied here (as `rootfs.tar.xz`) which is essentially the root filesystem used on CFW 1.3.3. (I.e. if you compile rootfs from the buildroot and replace the one here, many apps/emus will stop working; this is musl-vs-uclibc issue.).
 
@@ -121,46 +120,36 @@ The really custom bits in `rootfs.tar.xz` that need carrying over if you compile
 
 However one very useful thing that _can_ be squeezed from the current buildroot is a _toolchain_. Just run `make sdk` in the buildroot.
 
-### main partition
+### Main partition
 
 These are apps/emulators/ports/games that run on the device. The required one being [gmenu2x][gmenunx]. Here supplied in the `main` directory. All binaries, taken directly from CFW 1.3.3 release.
 
 For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
-
 There are a couple of free homebrew roms included here, to be able to test the image. Please see the credits below!
 
 
+# Included Games/ROMs/credits
 
+- NES:
+  - [Alter Ego](https://www.romhacking.net/homebrew/1/)
+  - [From Below](https://mhughson.itch.io/from-below)
 
+- GB:
+  - [Dangan](https://snorpung.itch.io/dangan-gb)
+  - [The bouncing ball](http://gb.cabbage.cx/)
 
-# Included games/ROMs links/credits
+- GBC:
+  - [ucity](https://github.com/AntonioND/ucity)
+  - [vectroid](https://gitlab.com/BonsaiDen/vectroid.gb)
 
-## NES
+- Games:
+  - [CircuitDude](http://www.circuitdude.com/)
+  - [Hocoslamfy](https://github.com/Nebuleon/hocoslamfy)
 
-- [Alter Ego](https://www.romhacking.net/homebrew/1/)
-- [From Below](https://mhughson.itch.io/from-below)
-
-## GB
-
-- [Dangan](https://snorpung.itch.io/dangan-gb)
-- [The bouncing ball](http://gb.cabbage.cx/)
-
-## GBC
-
-- [ucity](https://github.com/AntonioND/ucity)
-- [vectroid](https://gitlab.com/BonsaiDen/vectroid.gb)
-
-## games
-
-- [CircuitDude](http://www.circuitdude.com/)
-- [Hocoslamfy](https://github.com/Nebuleon/hocoslamfy)
-
-
-
-
-[uboot]: https://github.com/MiyooCFW/uboot
-[daemon]: https://github.com/MiyooCFW/daemon
-[miyooctl]: https://github.com/MiyooCFW/miyooctl
-[buildroot]: https://github.com/MiyooCFW/buildroot
-[gmenunx]: https://github.com/MiyooCFW/gmenunx
-[kernel]: https://github.com/MiyooCFW/kernel
+- Sources:
+  - [uboot](https://github.com/MiyooCFW/uboot)
+  - [daemon](https://github.com/MiyooCFW/daemon)
+  - [miyooctl](https://github.com/MiyooCFW/miyooctl)
+  - [buildroot](https://github.com/MiyooCFW/buildroot)
+  - [gmenunx](https://github.com/MiyooCFW/gmenunx)
+  - [kernel](https://github.com/MiyooCFW/kernel)
