@@ -1,0 +1,21 @@
+name: CI Build
+
+on: [push, pull_request]
+
+jobs:   
+  build:
+    name: MiyooCFW minimal image
+    runs-on: ubuntu-20.04
+    # losetup doesn't seem to work in the dockeer image, but we also don't
+    # need the toolchaiin, so just run directly on the github vm instead
+    #container:
+    #  image: nfriedly/miyoo-toolchain:main
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: sudo ./generate_image_file.sh
+    - uses: actions/upload-artifact@v2
+      with:
+        name: MiyooCFW microSD image
+        path: cfw-dev-*.img
+        if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
