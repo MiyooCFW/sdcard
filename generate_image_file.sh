@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+# Determine the version
+# If we're on a tagged commit, then this is just the tag
+# Otherwise it's the last tag, then the number of commits since that tag, then the current hash
+# Finally, if there are uncommitted changes, -dirty is appended
+# If there are no git tags, fall back to just the short hash
+VERSION=$(git describe --tags --dirty || git rev-parse --short HEAD)
+
 ROOTDIR="."
 UBOOTBIN="${ROOTDIR}/boot/misc/u-boot-bins/u-boot-v90_q90_pocketgo.bin"
-OUTFILE="${ROOTDIR}/cfw-dev-$(date '+%Y%m%d').img"
+OUTFILE="${ROOTDIR}/cfw-${VERSION}.img"
 
 ## helpers
 BOLDRED='\e[1;31m'
@@ -81,6 +89,8 @@ $BB umount "${TEMPMOUNT}"
 msg "Copying over boot files ..."
 $BB mount "${LOOPDEV}p1" "${TEMPMOUNT}"
 $BB cp -Lr "${BOOTFILES}"/* "${TEMPMOUNT}"
+msg "Writing $VERSION to /boot/version.txt..."
+echo "$VERSION" > "${TEMPMOUNT}/version.txt"
 $BB umount "${TEMPMOUNT}"
 msg "Copying over main files ..."
 $BB mount "${LOOPDEV}p4" "${TEMPMOUNT}"
