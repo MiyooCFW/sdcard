@@ -2,8 +2,25 @@ name: CI Build
 
 on: [push, pull_request]
 
-jobs:   
-  build:
+jobs:
+  build-boot-scr:
+    # this job runs in the docker image because it depends on tools that aren't in the default github image
+    name: Build boot.scr from boot.cmd
+    runs-on: ubuntu-20.04
+    container:
+      image: nfriedly/miyoo-toolchain:latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build boot.scr
+      run: ./gen_boot_scr.sh
+    - uses: actions/upload-artifact@v2
+      with:
+        name: boot.scr
+        path: boot/boot.scr
+        if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
+
+  build-image:
+    needs: build-boot-scr
     name: MiyooCFW minimal image
     runs-on: ubuntu-20.04
     # losetup doesn't seem to work in the dockeer image, but we also don't
@@ -12,10 +29,19 @@ jobs:
     #  image: nfriedly/miyoo-toolchain:main
     steps:
     - uses: actions/checkout@v2
-    - name: build
+    # the download action chokes if the file already exists
+    # see https://github.com/actions/download-artifact/issues/138
+    - name: remove old boot.scr
+      run: rm boot/boot.scr
+    # grab boot.scr from the previous job
+    - uses: actions/download-artifact@master
+      with:
+        name: boot.scr
+        path: boot/boot.scr
+    - name: build image
       run: sudo ./generate_image_file.sh
     - uses: actions/upload-artifact@v2
       with:
         name: MiyooCFW microSD image
-        path: cfw-dev-*.img
+        path: cfw-*.img
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
