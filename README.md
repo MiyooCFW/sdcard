@@ -24,6 +24,7 @@ Main partition/file structure.
 boot:
 |   boot.scr
 |   console.cfg
+|   version.cfg
 |   firstboot
 |   suniv-f1c500s-miyoo.dtb
 |   
