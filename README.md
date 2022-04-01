@@ -1,4 +1,4 @@
-# Main boot
+# SD Card Setup
 
 Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, Pocket Go V1, Powkiddy V90 and Q90).
 
