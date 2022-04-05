@@ -44,6 +44,7 @@ for prg in sfdisk mkdosfs mkfs.ext4; do
 done
 
 BOOTFILES="${ROOTDIR}/boot"
+ETCFILES="${ROOTDIR}/etc"
 MAINFILES="${ROOTDIR}/main"
 ROOTFILES="${ROOTDIR}/rootfs.tar.xz"
 
@@ -85,6 +86,8 @@ info "If some the following fails, you may need to '${WARNCOLOR}umount ${TEMPMOU
 msg "Unpacking rootfs ..."
 $BB mount "${LOOPDEV}p2" "${TEMPMOUNT}"
 $BB tar x -C "${TEMPMOUNT}" -J -f "${ROOTFILES}"
+msg "Copying over etc files ..."
+$BB cp -Lr "${ETCFILES}"/* "${TEMPMOUNT}"
 $BB umount "${TEMPMOUNT}"
 msg "Copying over boot files ..."
 $BB mount "${LOOPDEV}p1" "${TEMPMOUNT}"
