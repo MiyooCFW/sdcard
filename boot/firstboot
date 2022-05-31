@@ -75,8 +75,11 @@ fi
 
 # do some more stuff here ??
 
-# disable this script
+
 mount -o remount,rw "${MOUNTDIR}" | tee -a ${LOG}
+# copy boot.scr
+cp "${BASEDIR}/boot.scr" "${MOUNTDIR}" | tee -a ${LOG}
+# disable this script
 echo "Disabling the firstboot script." | tee -a ${LOG}
 mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
 if test -e "${MOUNTDIR}/resize"; then rm "${MOUNTDIR}/resize"; fi

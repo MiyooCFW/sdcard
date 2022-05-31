@@ -10,7 +10,7 @@ set -euo pipefail
 VERSION="${VERSION:-$(git describe --tags --dirty || git rev-parse --short HEAD)}"
 
 ROOTDIR="."
-UBOOTBIN="${ROOTDIR}/boot/misc/u-boot-bins/u-boot-v90_q90_pocketgo.bin"
+UBOOTBIN="${ROOTDIR}/boot/misc/u-boot-bins/u-boot-bittboy3.5.bin"
 OUTFILE="${ROOTDIR}/cfw-${VERSION}.img"
 
 ## helpers
