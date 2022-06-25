@@ -37,7 +37,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: boot.scr
-        path: boot/boot.scr
+        path: boot
     - name: build image
       run: sudo ./generate_image_file.sh
     - uses: actions/upload-artifact@v2
