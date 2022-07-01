@@ -2,4 +2,4 @@
 # LOGS variable is set, but it should usually be /dev/null
 # CONSOLE_VARIANT is also set
 #
-insmod "../../r61520fb.ko" version=2 flip=1
+insmod "../../st7789sfb.ko"
