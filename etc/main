@@ -83,6 +83,8 @@ fi
 # run boot logo animation
 if [ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ]; then
     "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" >> "${LOGS}" 2>&1
+elif grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh"; then
+sleep 1
 fi
 
 # can't unmount boot because 'daemon' runs from it - but it's mounted read-only
