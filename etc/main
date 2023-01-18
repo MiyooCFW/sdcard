@@ -57,7 +57,8 @@ if test -r "${BOOTDIR}/firstboot"; then
     exec sh "${BOOTDIR}/firstboot"
 fi
 
-#Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
+if !(grep -q FAT_CHECK\=\0 "${BOOTDIR}/console.cfg"); then
+##Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
 if dmesg | grep "mmcblk0p4" > /dev/null;  then
 echo -e "\e[31mUnclean shutdown detected.\e[0m"
 echo -e "\e[32mChecking FAT32 partition...\e[0m"
@@ -65,6 +66,7 @@ umount /dev/mmcblk0p4
 fsck.vfat -y /dev/mmcblk0p4 > /dev/null; 
 mount /dev/mmcblk0p4 "${HOME}" -t vfat -o rw,sync,utf8
 echo -e "\e[32mCheck complete.\e[0m"
+fi
 fi
 
 clear
@@ -80,11 +82,13 @@ else
     "${BOOTDIR}/variants/${CONSOLE_VARIANT}/daemon" >> "${LOGS}" 2>&1
 fi
 
+if !(grep -q BOOT_LOGO\=\0 "${BOOTDIR}/console.cfg"); then
 # run boot logo animation
 if [ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ]; then
     "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" >> "${LOGS}" 2>&1
 elif grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh"; then
 sleep 1
+fi
 fi
 
 # can't unmount boot because 'daemon' runs from it - but it's mounted read-only
