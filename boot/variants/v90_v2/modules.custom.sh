@@ -2,4 +2,4 @@
 # LOGS variable is set, but it should usually be /dev/null
 # CONSOLE_VARIANT is also set
 #
-insmod "../../st7789sfb.ko"
+insmod "../../st7789sfb.ko" lowcurrent=1
