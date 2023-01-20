@@ -41,7 +41,7 @@ insmod "${BOOTDIR}/syscopyarea.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysfillrect.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysimgblt.ko" >> "${LOGS}" 2>&1
 
-if test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh"; then
+if ((test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${BOOTDIR}/console.cfg")); then
     # if there is a custom module loading script, use that
     (cd "${BOOTDIR}/variants/${CONSOLE_VARIANT}" && sh modules.custom.sh ) >> "${LOGS}" 2>&1
 else
@@ -49,7 +49,7 @@ else
     # do it directly and not rely on modprobe trying to find them
     #   automatically in rootfs/lib/modules/VERSION
     #   (also because with custom kernels the VERSION will be different
-    insmod "${BOOTDIR}/r61520fb.ko"
+    insmod "${BOOTDIR}/r61520fb.ko" flip=1
 fi
 
 # check if it's first boot and defer to the firstboot script if yes
