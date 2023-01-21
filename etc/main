@@ -88,7 +88,6 @@ if ([ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ] && !(grep -q BOO
 elif ((grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${HOME}/console.cfg")); then
 sleep 1
 fi
-fi
 
 # can't unmount boot because 'daemon' runs from it - but it's mounted read-only
 #  so it's fine
