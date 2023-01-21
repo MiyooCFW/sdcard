@@ -85,7 +85,7 @@ fi
 # run boot logo animation
 if ([ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ] && !(grep -q BOOT_LOGO\=\0 "${BOOTDIR}/console.cfg")); then
     "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" >> "${LOGS}" 2>&1
-elif grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh"; then
+elif ((grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${BOOTDIR}/console.cfg")); then
 sleep 1
 fi
 fi
