@@ -12,8 +12,8 @@ LOGS=/dev/null
 export LOGS # so that subshells can use this as well
 
 # try to read what handheld we're on
-if test -r "${HOME}/console.cfg"; then
-    source "${HOME}/console.cfg"
+if test -r "${BOOTDIR}/console.cfg"; then
+    source "${BOOTDIR}/console.cfg"
 fi
 # sanity checks - we default to V90/Q90
 if test -z "${CONSOLE_VARIANT}"; then
@@ -41,7 +41,7 @@ insmod "${BOOTDIR}/syscopyarea.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysfillrect.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysimgblt.ko" >> "${LOGS}" 2>&1
 
-if ((test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${HOME}/console.cfg")); then
+if ((test -r "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${BOOTDIR}/console.cfg")); then
     # if there is a custom module loading script, use that
     (cd "${BOOTDIR}/variants/${CONSOLE_VARIANT}" && sh modules.custom.sh ) >> "${LOGS}" 2>&1
 else
@@ -57,7 +57,7 @@ if test -r "${BOOTDIR}/firstboot"; then
     exec sh "${BOOTDIR}/firstboot"
 fi
 
-if !(grep -q FAT_CHECK\=\0 "${HOME}/console.cfg"); then
+if !(grep -q FAT_CHECK\=\0 "${BOOTDIR}/console.cfg"); then
 ##Check if fat32 is flagged as "dirty", and if so unmount, repair, remount
 if dmesg | grep "mmcblk0p4" > /dev/null;  then
 echo -e "\e[31mUnclean shutdown detected.\e[0m"
@@ -83,9 +83,9 @@ else
 fi
 
 # run boot logo animation
-if ([ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ] && !(grep -q BOOT_LOGO\=\0 "${HOME}/console.cfg")); then
+if ([ -e "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" ] && !(grep -q BOOT_LOGO\=\0 "${BOOTDIR}/console.cfg")); then
     "${BOOTDIR}/variants/${CONSOLE_VARIANT}/${BOOTLOGO}" >> "${LOGS}" 2>&1
-elif ((grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${HOME}/console.cfg")); then
+elif ((grep -q st7789s "${BOOTDIR}/variants/${CONSOLE_VARIANT}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${BOOTDIR}/console.cfg")); then
 sleep 1
 fi
 
