@@ -49,7 +49,11 @@ else
     # do it directly and not rely on modprobe trying to find them
     #   automatically in rootfs/lib/modules/VERSION
     #   (also because with custom kernels the VERSION will be different
-    insmod "${BOOTDIR}/r61520fb.ko" flip=1
+if (grep -q FLIP\=\1 "${HOME}/options.cfg"); then
+   insmod "${BOOTDIR}/r61520fb.ko" flip=1
+else
+   insmod "${BOOTDIR}/r61520fb.ko"
+fi
 fi
 
 # check if it's first boot and defer to the firstboot script if yes
