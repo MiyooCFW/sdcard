@@ -1,6 +1,6 @@
 # SD Card Setup
 
-Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, Pocket Go V1, Powkiddy V90 and Q90).
+Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, PocketGo V1, Powkiddy V90, Q90, Q20 mini, SUP M3 and XYC Q8).
 
 TL;DR: to generate a minimal image, run `./generate_image_file.sh` on a linux system (some standard packages are required on the host; `x86_64` only).
 
@@ -82,10 +82,14 @@ boot:
     ├── bittboy3.orig
     ├── pocketgo.orig
     ├── v90_q90 
-    ├── v90_q90.orig      
+    ├── v90_q90.orig	
+    ├── v90_v2
+    ├── q20
     ├── m3
     └── xyc
 main:
+|   options.cfg
+|
 ├── apps
 ├── emus
 ├── games
@@ -95,7 +99,7 @@ main:
 
 ### U-Boot
 
-The main repository for the source code is [here][uboot]. Currently (2021-04-06) does not quite compile into a binary that you can directly use here... WIP.
+The main repository for the source code is [here][uboot].
 
 The u-boot binaries differ from handheld to handheld (because they all initalise the screen, which is different); the binaries are here in `boot/misc/u-boot-bins`.
 
@@ -128,6 +132,11 @@ These are apps/emulators/ports/games that run on the device. The required one be
 For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
 There are a couple of free homebrew roms included here, to be able to test the image. Please see the credits below!
 
+We have also ``options.cfg`` which make different modules/binaries toggle-able, by adding lines:
+``MODULES_CUSTOM=0`` - remove loading custom modules and default to r61520fb video driver.  
+``FAT_CHECK=0`` - disable FSCK checks (you can run them still manually from apps section with fsck tool)  
+``BOOT_LOGO=0`` - disable startup logo screen with this option, without necessity of removing it.
+``FLIP=1`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).
 
 # Included Games/ROMs/credits
 
