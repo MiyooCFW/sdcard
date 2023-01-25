@@ -10,7 +10,7 @@ set -euo pipefail
 VERSION="${VERSION:-$(git describe --tags --dirty || git rev-parse --short HEAD)}"
 
 ROOTDIR="."
-UBOOTBIN="${ROOTDIR}/boot/misc/u-boot-bins/u-boot-sunxi-with-spl-4bit.bin"
+UBOOTBIN="${ROOTDIR}/boot/misc/u-boot-bins/u-boot-sunxi-with-spl-1bit.bin"
 OUTFILE="${ROOTDIR}/cfw-${VERSION}.img"
 
 ## helpers
@@ -92,6 +92,7 @@ $BB umount "${TEMPMOUNT}"
 msg "Copying over boot files ..."
 $BB mount "${LOOPDEV}p1" "${TEMPMOUNT}"
 $BB cp -Lr "${BOOTFILES}"/* "${TEMPMOUNT}"
+$BB cp -Lr "${BOOTFILES}"/variants/m3/boot.scr "${TEMPMOUNT}"
 msg "Writing $VERSION to /boot/version.txt..."
 echo "$VERSION" > "${TEMPMOUNT}/version.txt"
 $BB umount "${TEMPMOUNT}"
