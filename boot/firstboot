@@ -56,7 +56,6 @@ if test -r "${BASEDIR}/firstboot.custom.sh"; then
     echo "Finished running a variant specific firstboot script." | tee -a ${LOG}
 fi
 
-mount -o remount,ro /mnt | tee -a ${LOG}
 
 echo
 
@@ -77,8 +76,6 @@ fi
 
 
 mount -o remount,rw "${MOUNTDIR}" | tee -a ${LOG}
-# copy boot.scr
-cp "${BASEDIR}/boot.scr" "${MOUNTDIR}" | tee -a ${LOG}
 # disable this script
 echo "Disabling the firstboot script." | tee -a ${LOG}
 mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
@@ -89,12 +86,11 @@ echo
 
 sync
 echo "firstboot script finished." | tee -a ${LOG}
-echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
 
 echo
 
-umount /dev/mmcblk0p4 | tee -a ${LOG}
+#umount /dev/mmcblk0p4 | tee -a ${LOG}
 #umount /dev/mmcblk0p1 | tee -a ${LOG} # this fails
 
-sleep 5
-poweroff
+#sleep 5
+#poweroff
