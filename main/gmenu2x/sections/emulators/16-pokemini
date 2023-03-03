@@ -1,7 +1,0 @@
-title=POKEMINI
-description=PokeMini Emulator
-exec=/mnt/emus/pokemini/pokemini
-clock=702
-selectorbrowser=true
-selectordir=/mnt/roms/pokemini
-

@@ -1,7 +1,0 @@
-title=PS1
-description=PCSX Rearmed Emulator
-exec=/mnt/emus/pcsx_rearmed/pcsx
-params=-cdfile $1
-clock=702
-selectordir=/mnt/roms/PS1/Kaitei Taisensou
-selectorelement=1

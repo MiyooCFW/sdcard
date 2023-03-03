@@ -1,6 +1,0 @@
-title=GAME&WATCH
-description=GAME&WATCH Emulator
-exec=/mnt/emus/game&watch/lr
-clock=702
-selectordir=/mnt/roms/G&W
-selectorelement=38
