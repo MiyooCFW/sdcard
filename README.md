@@ -132,11 +132,12 @@ These are apps/emulators/ports/games that run on the device. The required one be
 For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
 There are a couple of free homebrew roms included here, to be able to test the image. Please see the credits below!
 
-We have also ``options.cfg`` which make different modules/binaries toggle-able, by adding lines:  
-``MODULES_CUSTOM=0`` - remove loading custom modules and default to r61520fb video driver.  
+We have also ``options.cfg`` which make different modules/binaries toggle-able, by changing value to "1":  
+``MODULES_CUSTOM=0`` - enable loading custom modules script.  
 ``FAT_CHECK=0`` - disable FSCK checks (you can run them still manually from apps section with fsck tool)  
 ``BOOT_LOGO=0`` - disable startup logo screen with this option, without necessity of removing it.  
-``FLIP=1`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).  
+``FLIP=0`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).
+``TVMODE=0`` - enable PAL for TV output, otherwise use NTSC.  
 
 # Included Games/ROMs/credits
 

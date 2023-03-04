@@ -55,7 +55,11 @@ insmod "${BOOTDIR}/sysimgblt.ko" >> "${LOGS}" 2>&1
      echo 0 >/sys/class/backlight/backlight/brightness
      echo 0 > /sys/class/vtconsole/vtcon1/bind
      rmmod ${BOOTDIR}/$video
-     insmod ${BOOTDIR}/miyoo-tvout.ko
+     if (grep -q TVMODE\=\1 "${HOME}/options.cfg"); then
+		insmod ${BOOTDIR}/miyoo-tvout.ko tvmode=1
+     else
+		insmod ${BOOTDIR}/miyoo-tvout.ko
+     fi
      echo 1 > /sys/class/vtconsole/vtcon1/bind
      rmmod ${BOOTDIR}/$video
      rm ${HOME}/tvout
