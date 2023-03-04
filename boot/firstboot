@@ -22,7 +22,7 @@ echo -e "\e[32m" # green
 echo "firstboot script running..." | tee -a ${LOG}
 echo
 
-BASEDIR="${MOUNTDIR}/variants/${CONSOLE_VARIANT}"
+BASEDIR="${MOUNTDIR}
 
 # action time
 
@@ -51,9 +51,9 @@ echo
 
 # run a custom script if present - could be used to fix u-boot and such
 if test -r "${BASEDIR}/firstboot.custom.sh"; then
-    echo "Running a variant specific firstboot script..." | tee -a ${LOG}
+    echo "Running a specific firstboot script..." | tee -a ${LOG}
     (cd "${BASEDIR}" && sh firstboot.custom.sh) | tee -a ${LOG}
-    echo "Finished running a variant specific firstboot script." | tee -a ${LOG}
+    echo "Finished running a specific firstboot script." | tee -a ${LOG}
 fi
 
 
