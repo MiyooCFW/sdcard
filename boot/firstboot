@@ -89,8 +89,11 @@ echo "firstboot script finished." | tee -a ${LOG}
 
 echo
 
-#umount /dev/mmcblk0p4 | tee -a ${LOG}
+#REBOOT device if firstboot.custom script detected - for e.g. u-boot
+if test -r "${BASEDIR}/firstboot.custom.sh"; then
+echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
+umount /dev/mmcblk0p4 | tee -a ${LOG}
 #umount /dev/mmcblk0p1 | tee -a ${LOG} # this fails
-
-#sleep 5
-#poweroff
+sleep 3
+reboot
+fi
