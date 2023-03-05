@@ -109,8 +109,17 @@ We have also ``options.cfg`` which make different modules/binaries toggle-able, 
 ``MODULES_CUSTOM=0`` - enable loading custom modules script.  
 ``FAT_CHECK=0`` - disable FSCK checks (you can run them still manually from apps section with fsck tool)  
 ``BOOT_LOGO=0`` - disable startup logo screen with this option, without necessity of removing it.  
-``FLIP=0`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).
+``FLIP=0`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).  
 ``TVMODE=0`` - enable PAL for TV output, otherwise use NTSC.  
+
+Default values if none is provided or if lacking ``options.cfg``:
+```
+MODULES_CUSTOM=1
+FAT_CHECK=1
+BOOT_LOGO=1
+FLIP=0
+TVMODE=0
+```
 
 # Included Games/ROMs/credits
 

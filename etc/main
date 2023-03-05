@@ -68,10 +68,10 @@ insmod "${BOOTDIR}/sysimgblt.ko" >> "${LOGS}" 2>&1
       if ((test -r "${BOOTDIR}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${HOME}/options.cfg")); then
           (cd "${BOOTDIR}" && sh modules.custom.sh ) >> "${LOGS}" 2>&1
       else
+		# Load video module read from uEnv.txt & defined by variant in console.cfg
 		if (grep -q FLIP\=\1 "${HOME}/options.cfg"); then
 		insmod ${BOOTDIR}/$video $params flip=1
 		else
-		# Load video module read from uEnv.txt & defined by variant in config.txt
 		insmod ${BOOTDIR}/$video $params
 		fi
       fi
