@@ -102,7 +102,7 @@ echo "Handheld type is ${CONSOLE_VARIANT}" >> "${LOGS}"
 
 # run any custom commands ('daemon' expected to be run from there)
 if test -r "${BOOTDIR}/normalboot.custom.sh" ; then
-    (sh normalboot.custom.sh ) # don't redirect, want output on screen
+    (cd "${BOOTDIR}" && sh normalboot.custom.sh) # don't redirect, want output on screen
 else
     # at least run 'daemon'
     "${BOOTDIR}/daemon" >> "${LOGS}" 2>&1

@@ -53,40 +53,13 @@ boot:
 |           u-boot-bittboy3.bin
 |           u-boot-v90_q90_pocketgo.bin
 |           
-└── variants
-    |   .keep
-    |   
-    ├── bittboy2x
-    |   |   boot-logo
-    |   |   daemon
-    |   |   firstboot.custom.sh
-    |   |   miyooctl2
-    |   |   modules.custom.sh
-    |   |   normalboot.custom.sh
-    |   |   r61520fb.ko
-    |   |   syscopyarea.ko
-    |   |   sysfillrect.ko
-    |   |   sysimgblt.ko
-    |   |   zImage
-    |   |   
-    |   └── configs
-    |           .backlight.conf
-    |           .volume.conf
-    |           gmenu2x.conf
-    |           input.conf
-    |           manifest
-    |           
-    ├── bittboy2x.orig
-    ├── bittboy3.5
-    ├── bittboy3.5.orig
-    ├── bittboy3.orig
-    ├── pocketgo.orig
-    ├── v90_q90 
-    ├── v90_q90.orig	
-    ├── v90_v2
-    ├── q20
-    ├── m3
-    └── xyc
+├── configs
+|      manifest
+|
+└── logo
+       boot-logo
+    
+
 main:
 |   options.cfg
 |
