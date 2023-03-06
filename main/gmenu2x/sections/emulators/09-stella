@@ -1,7 +1,0 @@
-title=ATARI 2600
-description=Stella Emulator
-exec=/mnt/emus/stella/stella
-clock=702
-selectorbrowser=true
-selectordir=/mnt/roms/2600
-

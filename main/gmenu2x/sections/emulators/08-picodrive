@@ -1,6 +1,0 @@
-title=MEGADRIVE
-description=PicoDrive Emulator
-exec=/mnt/emus/picodrive/PicoDrive
-clock=702
-selectordir=/mnt/roms/SMD
-selectorelement=45

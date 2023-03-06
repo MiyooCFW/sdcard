@@ -1,6 +1,0 @@
-title=crocods
-description=Amstrad Emulator
-exec=/mnt/emus/crocods/crocods
-clock=702
-selectordir=/mnt/roms/amstrad
-selectorelement=3

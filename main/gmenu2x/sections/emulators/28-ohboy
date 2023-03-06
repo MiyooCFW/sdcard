@@ -1,6 +1,0 @@
-title=GB(OHBOY)
-description=ohboy Emulator
-exec=/mnt/emus/ohboy/ohboy
-clock=702
-selectorbrowser=true
-selectordir=/mnt/roms/gb

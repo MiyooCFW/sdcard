@@ -53,40 +53,13 @@ boot:
 |           u-boot-bittboy3.bin
 |           u-boot-v90_q90_pocketgo.bin
 |           
-└── variants
-    |   .keep
-    |   
-    ├── bittboy2x
-    |   |   boot-logo
-    |   |   daemon
-    |   |   firstboot.custom.sh
-    |   |   miyooctl2
-    |   |   modules.custom.sh
-    |   |   normalboot.custom.sh
-    |   |   r61520fb.ko
-    |   |   syscopyarea.ko
-    |   |   sysfillrect.ko
-    |   |   sysimgblt.ko
-    |   |   zImage
-    |   |   
-    |   └── configs
-    |           .backlight.conf
-    |           .volume.conf
-    |           gmenu2x.conf
-    |           input.conf
-    |           manifest
-    |           
-    ├── bittboy2x.orig
-    ├── bittboy3.5
-    ├── bittboy3.5.orig
-    ├── bittboy3.orig
-    ├── pocketgo.orig
-    ├── v90_q90 
-    ├── v90_q90.orig	
-    ├── v90_v2
-    ├── q20
-    ├── m3
-    └── xyc
+├── configs
+|      manifest
+|
+└── logo
+       boot-logo
+    
+
 main:
 |   options.cfg
 |
@@ -132,11 +105,21 @@ These are apps/emulators/ports/games that run on the device. The required one be
 For recompiling you need to track down their source yourself (other than [gmenu2x][gmenunx]).
 There are a couple of free homebrew roms included here, to be able to test the image. Please see the credits below!
 
-We have also ``options.cfg`` which make different modules/binaries toggle-able, by adding lines:
-``MODULES_CUSTOM=0`` - remove loading custom modules and default to r61520fb video driver.  
+We have also ``options.cfg`` which make different modules/binaries toggle-able, by changing value to "1":  
+``MODULES_CUSTOM=0`` - enable loading custom modules script.  
 ``FAT_CHECK=0`` - disable FSCK checks (you can run them still manually from apps section with fsck tool)  
-``BOOT_LOGO=0`` - disable startup logo screen with this option, without necessity of removing it.
-``FLIP=1`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).
+``BOOT_LOGO=0`` - disable startup logo screen with this option, without necessity of removing it.  
+``FLIP=0`` - flips the displayed image when using default fb driver (only when modules.custom.sh is off).  
+``TVMODE=0`` - enable PAL for TV output, otherwise use NTSC.  
+
+Default values if none is provided or if lacking ``options.cfg``:
+```
+MODULES_CUSTOM=1
+FAT_CHECK=1
+BOOT_LOGO=1
+FLIP=0
+TVMODE=0
+```
 
 # Included Games/ROMs/credits
 

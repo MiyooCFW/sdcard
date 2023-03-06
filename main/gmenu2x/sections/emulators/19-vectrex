@@ -1,5 +1,0 @@
-title=vectrex
-description=vectrex emulator
-exec=/mnt/emus/vectrex/vectrex.elf
-clock=702
-selectordir=/mnt/roms/vectrex

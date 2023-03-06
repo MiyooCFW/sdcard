@@ -1,6 +1,0 @@
-title=SMS/GG
-description=SMS Plus GX Emulator
-exec=/mnt/emus/smsplusgx/smsplusgx
-clock=702
-selectordir=/mnt/roms/SMD
-selectorelement=45

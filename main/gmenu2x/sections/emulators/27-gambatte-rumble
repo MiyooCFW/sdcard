@@ -1,7 +1,0 @@
-title=GB(RUMBLE)
-description=Gambatte Emulator (Rumble)
-exec=/mnt/emus/gambatte_sdl/gambatte_sdl
-clock=702
-selectorbrowser=true
-selectordir=/mnt/roms/gb
-

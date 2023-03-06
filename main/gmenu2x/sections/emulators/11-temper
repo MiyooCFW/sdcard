@@ -1,6 +1,0 @@
-title=PC ENGINE
-description=Temper Emulator
-exec=/mnt/emus/temper/temper
-clock=702
-selectordir=/mnt/roms/PCE
-selectorelement=3

@@ -1,6 +1,0 @@
-title=SNES
-description=SNES9x4d Emulator
-exec=/mnt/emus/snes9x4d/snes9x4d
-clock=702
-selectordir=/mnt/roms/SFC
-selectorelement=16

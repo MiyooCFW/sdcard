@@ -1,6 +1,0 @@
-title=Bittboy J2me
-description=Java 2 ME Emulator
-exec=/mnt/emus/bittboy-j2me/bin/runjar.sh
-clock=702
-selectordir=/mnt/roms/j2me
-selectorelement=2

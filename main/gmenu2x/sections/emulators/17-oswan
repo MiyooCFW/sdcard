@@ -1,6 +1,0 @@
-title=WSWAN
-description= OSwan Emulator
-exec=/mnt/emus/oswan/oswan.elf
-clock=702
-selectorbrowser=true
-selectordir=/mnt/roms/WSWAN

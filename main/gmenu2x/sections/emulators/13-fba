@@ -1,7 +1,0 @@
-title=fba
-description=FBA Emulator
-exec=/mnt/emus/fba-a320/fba
-clock=702
-selectordir=/mnt/roms/NEOGEO
-selectorelement=42
-selectoraliases=/mnt/emus/fba-a320/aliases.txt

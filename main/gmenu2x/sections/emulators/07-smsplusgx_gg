@@ -1,6 +1,0 @@
-title=ColecoVision
-description=Coleco Emulator
-exec=/mnt/emus/smsplusgx_gg/coleco
-clock=702
-selectordir=/mnt/roms/COLECOVISION
-selectorfilter=col

@@ -22,7 +22,7 @@ echo -e "\e[32m" # green
 echo "firstboot script running..." | tee -a ${LOG}
 echo
 
-BASEDIR="${MOUNTDIR}/variants/${CONSOLE_VARIANT}"
+BASEDIR="${MOUNTDIR}"
 
 # action time
 
@@ -51,12 +51,11 @@ echo
 
 # run a custom script if present - could be used to fix u-boot and such
 if test -r "${BASEDIR}/firstboot.custom.sh"; then
-    echo "Running a variant specific firstboot script..." | tee -a ${LOG}
+    echo "Running a specific firstboot script..." | tee -a ${LOG}
     (cd "${BASEDIR}" && sh firstboot.custom.sh) | tee -a ${LOG}
-    echo "Finished running a variant specific firstboot script." | tee -a ${LOG}
+    echo "Finished running a specific firstboot script." | tee -a ${LOG}
 fi
 
-mount -o remount,ro /mnt | tee -a ${LOG}
 
 echo
 
@@ -77,8 +76,6 @@ fi
 
 
 mount -o remount,rw "${MOUNTDIR}" | tee -a ${LOG}
-# copy boot.scr
-cp "${BASEDIR}/boot.scr" "${MOUNTDIR}" | tee -a ${LOG}
 # disable this script
 echo "Disabling the firstboot script." | tee -a ${LOG}
 mv "${MOUNTDIR}/firstboot" "${MOUNTDIR}/firstboot.done" | tee -a ${LOG}
@@ -89,12 +86,14 @@ echo
 
 sync
 echo "firstboot script finished." | tee -a ${LOG}
-echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
 
 echo
 
+#REBOOT device if firstboot.custom script detected - for e.g. u-boot
+if test -r "${BASEDIR}/firstboot.custom.sh"; then
+echo "please wait a few seconds for shutdown...." | tee -a ${LOG}
 umount /dev/mmcblk0p4 | tee -a ${LOG}
 #umount /dev/mmcblk0p1 | tee -a ${LOG} # this fails
-
-sleep 5
-poweroff
+sleep 3
+reboot
+fi

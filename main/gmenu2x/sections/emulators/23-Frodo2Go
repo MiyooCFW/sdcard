@@ -1,6 +1,0 @@
-title=C64
-description=commodore 64 emulator
-exec=/mnt/EMUS/Frodo2Go/Frodo
-clock=702
-selectordir=/mnt/ROMS/C64
-selectorelement=17

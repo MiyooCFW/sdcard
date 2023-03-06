@@ -1,6 +1,0 @@
-title=mplayer
-description=Media Player
-exec=/mnt/apps/mplayer/run.sh
-clock=702
-selectordir=/mnt/media
-selectorbrowser=true

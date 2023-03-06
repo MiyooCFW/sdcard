@@ -1,6 +1,0 @@
-title=NGPCemu
-description=NeoGeo Pocket Emulator
-exec=/mnt/emus/ngpcemu/ngpcemu
-clock=702
-selectordir=/mnt/roms/NGP
-selectorelement=1

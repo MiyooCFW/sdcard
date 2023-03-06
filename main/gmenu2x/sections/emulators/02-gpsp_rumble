@@ -1,6 +1,0 @@
-title=gpsp(rumble)
-description=gba emulator
-exec=/mnt/emus/gpsp_rumble/gpsp_rumble.elf
-clock=702
-selectordir=/mnt/roms/gba
-selectorelement=23
