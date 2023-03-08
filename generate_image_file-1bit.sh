@@ -73,7 +73,7 @@ msg "Writing u-boot ..."
 $BB dd if="${UBOOTBIN}" of="${LOOPDEV}" bs=1024 seek=8
 
 msg "Formatting partitions ..."
-mkdosfs -F 16 -n BOOT "${LOOPDEV}p1"
+mkdosfs -F 32 -n BOOT "${LOOPDEV}p1"
 mkfs.ext4 -L rootfs "${LOOPDEV}p2"
 mkdosfs -F 32 -n MAIN "${LOOPDEV}p4"
 $BB mkswap "${LOOPDEV}p3"
