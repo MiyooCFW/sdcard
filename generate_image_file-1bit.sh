@@ -57,7 +57,7 @@ $BB losetup "${LOOPDEV}" "${OUTFILE}"
 
 msg "Creating partition table ..."
 sfdisk "${LOOPDEV}" << EOF
-,261120,6
+,261120,b
 ,261120,L
 ,522240,S
 ,,b;
