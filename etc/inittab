@@ -27,6 +27,8 @@
 # now run any rc scripts
 #::sysinit:/etc/init.d/rcS
 tty1::respawn:/etc/main
+::respawn:/sbin/getty -L ttyAM0 115200 vt100
+::respawn:/sbin/getty -L ttyGS0 115200 vt100
 
 # Stuff to do for the 3-finger salute
 #::ctrlaltdel:/sbin/reboot
