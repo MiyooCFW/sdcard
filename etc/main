@@ -37,6 +37,7 @@ fi
 insmod "${BOOTDIR}/syscopyarea.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysfillrect.ko" >> "${LOGS}" 2>&1
 insmod "${BOOTDIR}/sysimgblt.ko" >> "${LOGS}" 2>&1
+insmod "${BOOTDIR}/g_acm_ms.ko" file=/dev/mmcblk0p4 removable=1 ro=0 >> "${LOGS}" 2>&1
 
 
 # just load the expected ones (screen driver) from here
