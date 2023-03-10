@@ -63,7 +63,6 @@ insmod "${BOOTDIR}/g_acm_ms.ko" file=/dev/mmcblk0p4 removable=1 ro=0 >> "${LOGS}
      fi
      echo 1 > /sys/class/vtconsole/vtcon1/bind
      rmmod ${BOOTDIR}/$video
-     rm ${HOME}/tvout
     else
 	  # MODULES_CUSTOM scripting
       if ((test -r "${BOOTDIR}/modules.custom.sh") && !(grep -q MODULES_CUSTOM\=\0 "${HOME}/options.cfg")); then
