@@ -21,7 +21,7 @@ jobs:
 
   build-image:
     needs: build-boot-scr
-    name: MiyooCFW minimal image
+    name: MiyooCFW image
     runs-on: ubuntu-20.04
     # losetup doesn't seem to work in the dockeer image, but we also don't
     # need the toolchaiin, so just run directly on the github vm instead
@@ -42,6 +42,32 @@ jobs:
       run: sudo ./generate_image_file.sh
     - uses: actions/upload-artifact@v2
       with:
-        name: MiyooCFW microSD image
+        name: MiyooCFW SD image
+        path: cfw-*.img
+        if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
+  build-image-MINIMUM:
+    needs: build-boot-scr
+    name: MiyooCFW minimal image
+    runs-on: ubuntu-20.04
+    # losetup doesn't seem to work in the dockeer image, but we also don't
+    # need the toolchaiin, so just run directly on the github vm instead
+    #container:
+    #  image: nfriedly/miyoo-toolchain:main
+    steps:
+    - uses: actions/checkout@v2
+    # the download action chokes if the file already exists
+    # see https://github.com/actions/download-artifact/issues/138
+    - name: remove old boot.scr
+      run: rm boot/boot.scr
+    # grab boot.scr from the previous job
+    - uses: actions/download-artifact@master
+      with:
+        name: boot.scr
+        path: boot
+    - name: build image
+      run: sudo ./generate_image_file.sh MINIMUM
+    - uses: actions/upload-artifact@v2
+      with:
+        name: MiyooCFW minimal SD image
         path: cfw-*.img
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
