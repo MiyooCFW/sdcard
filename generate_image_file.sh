@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [ "$#" -eq 1 ] && [ "$1" == "MINIMUM" ] ; then
+    echo -e "Create img for sd 512MB"
+    IMG_SIZE='512000'
+    BOOT_SIZE='40960'
+    ROOTFS_SIZE='204800'
+    MAIN_SIZE='131072'
+else    
+    echo -e "Create img for sd 2GB"
+    IMG_SIZE='1179648'
+    BOOT_SIZE='261120'
+    ROOTFS_SIZE='261120'
+    MAIN_SIZE='522240'
+fi
 
 # Determine the version if it's not set
 # If we're on a tagged commit, then this is just the tag
@@ -49,7 +62,7 @@ MAINFILES="${ROOTDIR}/main"
 ROOTFILES="${ROOTDIR}/rootfs.tar.xz"
 
 msg "Creating image file ..."
-dd if=/dev/zero of="${OUTFILE}" bs=1024 count=1179648
+dd if=/dev/zero of="${OUTFILE}" bs=1024 count=${IMG_SIZE}
 
 msg "Mapping image as a loop device ..."
 LOOPDEV=$(${BB} losetup -f)
@@ -57,9 +70,9 @@ $BB losetup "${LOOPDEV}" "${OUTFILE}"
 
 msg "Creating partition table ..."
 sfdisk "${LOOPDEV}" << EOF
-,261120,b
-,261120,L
-,522240,S
+,${BOOT_SIZE},b 
+,${ROOTFS_SIZE},L
+,${MAIN_SIZE},S
 ,,b;
 EOF
 
