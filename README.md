@@ -1,3 +1,7 @@
+# WARNING!
+
+### This repository is **Archive project** for building MiyooCFW image file! Updated & current method for making OS under https://github.com/MiyooCFW/buildroot
+
 # SD Card Setup
 
 Repository with some binaries and scripts to assemble a Custom FirmWare image for "Miyoo" devices (Bittboys, PocketGo V1, Powkiddy V90, Q90, Q20 mini, SUP M3 and XYC Q8).
