@@ -1,0 +1,5 @@
+title=DOS
+description=DOSBox Emulator
+exec=/mnt/emus/dosbox/dosbox
+clock=702
+selectorbrowser=true

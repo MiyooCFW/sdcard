@@ -1,0 +1,49 @@
+;Rise of the Triad Sound File
+;                  (c) 1995
+
+Version            14
+
+;
+; Music Modes
+; 0  -  Off
+; 6  -  On
+MusicMode          6
+
+;
+; FX Modes
+; 0  -  Off
+; 6  -  On
+FXMode             6
+
+;
+; Music Volume
+; (low) 0 - 255 (high)
+MusicVolume      196
+
+;
+; FX Volume
+; (low) 0 - 255 (high)
+FXVolume         196
+
+;
+; Number of Voices
+; 1 - 8
+NumVoices          8
+
+;
+; Stereo or Mono
+; 1 - Mono
+; 2 - Stereo
+NumChannels        2
+
+;
+; Resolution
+; 8 bit
+; 16 bit
+NumBits            16
+
+;
+; ReverseStereo
+; 0 no reversal
+; 1 reverse stereo
+StereoReverse        0
