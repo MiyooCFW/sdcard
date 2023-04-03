@@ -1,0 +1,4 @@
+title=Amiga
+description=Amiga Emulator uae4all
+exec=/mnt/emus/uae4all/uae4all
+clock=702

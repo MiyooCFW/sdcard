@@ -1,0 +1,10 @@
+This is the user-specific data directory for ASCIIpOrtal.
+
+It is used to store save data for each map pack, in Yaml format.
+You might also want to provide custom mappacks; just put your maps under
+a <map_pack_name> subdirectory, and make sure your maps are named properly
+('001.txt', '002.txt', ...)
+
+Keep in mind that this directory is searched first; if you provide maps
+under a mappack name that already exists (e.g. 'default/'), they'll get used
+instead of the official ones.

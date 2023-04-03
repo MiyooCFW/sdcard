@@ -1,0 +1,4 @@
+apps/**/* filter=lfs diff=lfs merge=lfs -text
+emus/**/* filter=lfs diff=lfs merge=lfs -text
+games/**/* filter=lfs diff=lfs merge=lfs -text
+

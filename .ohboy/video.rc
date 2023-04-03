@@ -1,0 +1,12 @@
+source "Select Palette"
+set palette "Select Palette"
+set colorfilter 0
+set filterdmg 0
+set upscaler 1
+set bmpenabled 1
+set border "/mnt/.ohboy/borders/GB Classic.png"
+set gbcborder "/mnt/.ohboy/borders/GBC Blue.png"
+set red 0x00005f 0x000019 0x000000 0x000023
+set green 0x000019 0x0000aa 0x000019 0x000023
+set blue 0x000019 0x00003c 0x00007d 0x000028
+set blendframes 0

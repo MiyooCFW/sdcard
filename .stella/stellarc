@@ -1,0 +1,93 @@
+;  Stella configuration file
+;
+;  Lines starting with ';' are comments and are ignored.
+;  Spaces and tabs are ignored.
+;
+;  Format MUST be as follows:
+;    command = value
+;
+;  Commmands are the same as those specified on the commandline,
+;  without the '-' character.
+;
+;  Values are the same as those allowed on the commandline.
+;  Boolean values are specified as 1 (or true) and 0 (or false)
+;
+video = soft
+gl_inter = false
+gl_aspectn = 90
+gl_aspectp = 100
+gl_fsscale = false
+gl_lib = libGL.so
+gl_vsync = false
+gl_vbo = true
+tia_filter = zoom2x
+fullscreen = 1
+fullres = auto
+center = false
+grabmouse = true
+palette = standard
+colorloss = true
+timing = sleep
+uimessages = true
+tv_filter = 0
+tv_scanlines = 25
+tv_scaninter = true
+tv_contrast = 0
+tv_brightness = 0
+tv_hue = 0
+tv_saturation = 0
+tv_gamma = 0
+tv_sharpness = 0
+tv_resolution = 0
+tv_artifacts = 0
+tv_fringing = 0
+tv_bleed = 0
+sound = true
+fragsize = 512
+freq = 31400
+volume = 100
+keymap = 116:0:0:0:0:0:0:0:0:91:90:0:0:0:95:0:0:0:0:0:94:0:0:0:0:0:0:0:10:0:0:0:0:16:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:11:12:14:13:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:96:95:15:0:9:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:115:0:0:0:0:110:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:114:0:0:0:0:0:0:0:0:0:0:0:0:0:0
+joymap = 
+combomap = 16:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0:0,0,0,0,0,0,0,0
+joydeadzone = 13
+joyallow4 = false
+usemouse = analog
+dsense = 10
+msense = 7
+saport = lr
+ctrlcombo = true
+snapsavedir = ~/
+snaploaddir = ~/
+snapname = int
+sssingle = false
+ss1x = false
+ssinterval = 2
+romdir = 
+statedir = ~/.stella/state/
+cheatfile = ~/.stella/stella.cht
+palettefile = ~/.stella/stella.pal
+propsfile = ~/.stella/stella.pro
+nvramdir = ~/.stella/nvram/
+cfgdir = ~/.stella/cfg/
+exitlauncher = false
+launcherres = 320x240
+launcherfont = medium
+launcherexts = allroms
+romviewer = 0
+lastrom = 
+autoslot = false
+loglevel = 1
+logtoconsole = 0
+tiadriven = false
+cpurandom = true
+ramrandom = true
+avoxport = 
+stats = 0
+fastscbios = 0
+dbg.fontstyle = 0
+dbg.uhex = true
+dis.resolve = true
+dis.gfxformat = 2
+dis.showaddr = true
+dis.relocate = false
+thumb.trapfatal = true
