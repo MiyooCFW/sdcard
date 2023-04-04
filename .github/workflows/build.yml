@@ -18,13 +18,16 @@ jobs:
     container:
       image: nfriedly/miyoo-toolchain:latest
     steps:
-    - uses: actions/checkout@v2
+    - run: echo "submodule ${{ inputs.submodule }} on ${{ github.event }}"
+    - uses: actions/checkout@v3
+    - if: inputs.submodule
+      run: git submodule update --init --depth 1 -- ${{ inputs.submodule }}
     - name: build boot.scr
-      run: ./gen_boot_scr.sh
-    - uses: actions/upload-artifact@v2
+      run: cd ${{ inputs.submodule || '.' }} && ./gen_boot_scr.sh
+    - uses: actions/upload-artifact@v3
       with:
         name: boot.scr
-        path: boot/boot.scr
+        path: ${{ inputs.submodule || '.' }}/boot/boot.scr
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
 
   build-image:
@@ -36,22 +39,25 @@ jobs:
     #container:
     #  image: nfriedly/miyoo-toolchain:main
     steps:
-    - uses: actions/checkout@v2
+    - run: echo "submodule ${{ inputs.submodule }} on ${{ github.event }}"
+    - uses: actions/checkout@v3
+    - if: inputs.submodule
+      run: git submodule update --init --depth 1 -- ${{ inputs.submodule }}
     # the download action chokes if the file already exists
     # see https://github.com/actions/download-artifact/issues/138
     - name: remove old boot.scr
-      run: rm boot/boot.scr
+      run: rm ${{ inputs.submodule || '.' }}/boot/boot.scr
     # grab boot.scr from the previous job
     - uses: actions/download-artifact@master
       with:
         name: boot.scr
-        path: boot
+        path: ${{ inputs.submodule || '.' }}/boot
     - name: build image
-      run: sudo ./generate_image_file.sh
-    - uses: actions/upload-artifact@v2
+      run: cd ${{ inputs.submodule || '.' }} && sudo ./generate_image_file.sh
+    - uses: actions/upload-artifact@v3
       with:
         name: MiyooCFW SD image
-        path: cfw-*.img
+        path: ${{ inputs.submodule || '.' }}/cfw-*.img
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
   build-image-MINIMUM:
     needs: build-boot-scr
@@ -62,20 +68,23 @@ jobs:
     #container:
     #  image: nfriedly/miyoo-toolchain:main
     steps:
-    - uses: actions/checkout@v2
+    - run: echo "submodule ${{ inputs.submodule }} on ${{ github.event }}"
+    - uses: actions/checkout@v3
+    - if: inputs.submodule
+      run: git submodule update --init --depth 1 -- ${{ inputs.submodule }}
     # the download action chokes if the file already exists
     # see https://github.com/actions/download-artifact/issues/138
     - name: remove old boot.scr
-      run: rm boot/boot.scr
+      run: rm ${{ inputs.submodule || '.' }}/boot/boot.scr
     # grab boot.scr from the previous job
     - uses: actions/download-artifact@master
       with:
         name: boot.scr
-        path: boot
+        path: ${{ inputs.submodule || '.' }}/boot
     - name: build image
-      run: sudo ./generate_image_file.sh MINIMUM
-    - uses: actions/upload-artifact@v2
+      run: cd ${{ inputs.submodule || '.' }} && sudo ./generate_image_file.sh MINIMUM
+    - uses: actions/upload-artifact@v3
       with:
         name: MiyooCFW minimal SD image
-        path: cfw-*.img
+        path: ${{ inputs.submodule || '.' }}/cfw-*.img
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
