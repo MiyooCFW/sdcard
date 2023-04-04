@@ -1,6 +1,8 @@
 title=NEOGEO
 description=GnGeo Emulator
 exec=/mnt/emus/gngeo/gngeo
+params=-d /mnt/emus/gngeo -i /mnt/roms/neogeo
 clock=702
 selectordir=/mnt/roms/NEOGEO
+selectorelement=1
 selectoraliases=/mnt/emus/gngeo/aliases.txt
